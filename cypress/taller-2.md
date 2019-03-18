@@ -1,0 +1,1 @@
+Se incluyen screen shots en los pasos de prueba del taller 2
