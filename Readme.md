@@ -8,6 +8,11 @@ npm run compare
 
 [Random Colors Page](https://ir-taimal10.github.io/miso-4208-taller-6/randomColorsApp/)
 
+
+<p align="center">
+  <img src="before_after_result_example.PNG" width="600" alt="accessibility text">
+</p>
+
 ## Preguntas
 
 
