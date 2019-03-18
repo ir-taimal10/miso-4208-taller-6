@@ -6,3 +6,5 @@
 .idea/**
 
 **/cypress/screenshots/**
+
+**/build/**
