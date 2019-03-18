@@ -11,19 +11,24 @@ export class ComparerScreenshot {
     }
 
     public async executeCompare() {
-        const input_image01 = Path.join(__dirname, "../", "compare__capture01.png");
-        const input_image02 = Path.join(__dirname, "../", "compare__capture02.png");
-        const output_image = Path.join(__dirname, "../", "compare__result.png");
+        const timeStamp = `${new Date().getTime()}`;
+        const input_image01 = Path.join(__dirname, "../", `compare__${timeStamp}__before.png`);
+        const input_image02 = Path.join(__dirname, "../", `compare__${timeStamp}__after.png`);
+        const output_image = Path.join(__dirname, "../", `compare__${timeStamp}__result.png`);
 
         await this.captureScreenshot(input_image01);
         await this.captureScreenshot(input_image02);
         await this.getDiff(input_image01, input_image02, output_image);
     }
 
-
     public async captureScreenshot(filename) {
-        await serverScreenshot.fromURL("https://ir-taimal10.github.io/miso-4208-taller-6/randomColorsApp/",
-            filename);
+        return new Promise((resolve, reject) => {
+            serverScreenshot.fromURL("https://ir-taimal10.github.io/miso-4208-taller-6/randomColorsApp/",
+                filename,
+                () => {
+                    resolve(filename);
+                });
+        });
     }
 
     public async getDiff(input_image01, input_image02, output_image) {
@@ -53,7 +58,6 @@ export class ComparerScreenshot {
     }
 
 }
-
 
 const comparer = new ComparerScreenshot();
 comparer.executeCompare();
