@@ -1,7 +1,8 @@
-import * as capture from 'capture-screenshot';
 import * as  compareImages from 'resemblejs/compareImages';
 import * as  fs from 'fs-extra';
-import * as mfs from 'mz/fs';
+import Path = require("path");
+import * as serverScreenshot from "node-server-screenshot";
+
 
 export class ComparerScreenshot {
 
@@ -9,27 +10,20 @@ export class ComparerScreenshot {
 
     }
 
-    public async executeComparation() {
-        const input_image01 = 'capture01.png';
-        const input_image02 = 'capture02.png';
-        const output_image = 'result.png';
+    public async executeCompare() {
+        const input_image01 = Path.join(__dirname, "../", "compare__capture01.png");
+        const input_image02 = Path.join(__dirname, "../", "compare__capture02.png");
+        const output_image = Path.join(__dirname, "../", "compare__result.png");
 
-        this.captureScreenshot(input_image01);
-        this.captureScreenshot(input_image02);
-
-        setTimeout(()=>{
-            this.getDiff(input_image01, input_image02, output_image);
-        }, 3000, 'funky');
-
-
+        await this.captureScreenshot(input_image01);
+        await this.captureScreenshot(input_image02);
+        await this.getDiff(input_image01, input_image02, output_image);
     }
 
 
     public async captureScreenshot(filename) {
-        capture({url: 'https://ir-taimal10.github.io/miso-4208-taller-6/randomColorsApp/'})
-            .then(imgs => {
-                fs.writeFileSync(filename, imgs.chrome)
-            });
+        await serverScreenshot.fromURL("https://ir-taimal10.github.io/miso-4208-taller-6/randomColorsApp/",
+            filename);
     }
 
     public async getDiff(input_image01, input_image02, output_image) {
@@ -50,17 +44,16 @@ export class ComparerScreenshot {
             ignore: ['nothing', 'less', 'antialiasing', 'colors', 'alpha'],
         };
         const data = await compareImages(
-            await mfs.readFile(input_image01),
-            await mfs.readFile(input_image02),
+            await fs.readFile(input_image01),
+            await fs.readFile(input_image02),
             options
         );
 
-        await mfs.writeFile(output_image, data.getBuffer());
+        await fs.writeFile(output_image, data.getBuffer());
     }
 
 }
 
 
-
 const comparer = new ComparerScreenshot();
-comparer.executeComparation();
+comparer.executeCompare();

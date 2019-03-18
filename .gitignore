@@ -8,3 +8,5 @@
 **/cypress/screenshots/**
 
 **/build/**
+
+**/compare__*.png

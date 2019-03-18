@@ -5,7 +5,11 @@
       "es2015"
     ],
     "types": [
+      "node",
       "reflect-metadata"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
     ],
     "module": "commonjs",
     "moduleResolution": "node",
